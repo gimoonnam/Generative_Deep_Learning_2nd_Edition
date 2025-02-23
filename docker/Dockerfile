@@ -4,12 +4,15 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
 RUN apt-get install -y unzip graphviz curl musescore3 python3-pip
+RUN apt-get update && apt-get install -y libhdf5-dev
+RUN apt-get install pkg-config
 
 RUN pip install --upgrade pip
 
 WORKDIR /app
 
 COPY ./requirements.txt /app
+RUN pip install --no-binary h5py h5py
 RUN pip install -r /app/requirements.txt
 
 # Hack to get around tensorflow-io issue - https://github.com/tensorflow/io/issues/1755
